@@ -33,7 +33,7 @@ async def scrape_channel(channel_username, limit=30):
 def get_pgsql_connection():
     try:
         conn = psycopg2.connect(
-          host=os.getenv("pgsql_host=localhost"),
+          host=os.getenv("pgsql_host"),
           port=os.getenv("pgsql_port"),
           database= os.getenv("pgsql_db"),
           user=os.getenv("pgsql_user"),
