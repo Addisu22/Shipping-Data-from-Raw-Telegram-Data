@@ -1,0 +1,41 @@
+import os
+import asyncio
+import psycopg2
+from telethon import TelegramClient
+from telethon.errors import SessionPasswordNeededError
+from dotenv import load_dotenv
+
+# Async function to scrape messages
+async def scrape_channel(channel_username, limit=30):
+    client = TelegramClient("async_session", api_id, api_hash)
+
+    try:
+        await client.start()
+        print(f"Connected. Scraping messages from {channel_username}...")
+
+        async for message in client.iter_messages(channel_username,limit=limit):
+            if message.message:  # only if it's a text message
+                print(f"[{message.date.strftime('%Y-%m-%d %H:%M:%S')}]{message.message[:80]}")
+
+    except SessionPasswordNeededError:
+        print("Two-step verification is enabled. Please configure it.")
+    except Exception as e:
+        print(f"Error scraping channel: {e}")
+    finally:
+        await client.disconnect()
+        print("Disconnected from Telegram.")
+
+# PostgreSQL connection
+def get_pgsql_connection():
+    try:
+        conn = psycopg2.connect(
+          host="localhost",
+          port=5432,
+          database="telegram",
+          user="postgres",
+          password="Admin#123"
+        )
+        return conn
+    except Exception as e:
+        print(f"PostgreSQL connection error: {e}")
+        return None
