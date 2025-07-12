@@ -33,11 +33,11 @@ async def scrape_channel(channel_username, limit=30):
 def get_pgsql_connection():
     try:
         conn = psycopg2.connect(
-          host="localhost",
-          port=5432,
-          database="telegram",
-          user="postgres",
-          password="Admin#123"
+          host=os.getenv("pgsql_host=localhost"),
+          port=os.getenv("pgsql_port"),
+          database= os.getenv("pgsql_db"),
+          user=os.getenv("pgsql_user"),
+          password=os.getenv("pgsql_pass")
         )
         return conn
     except Exception as e:
