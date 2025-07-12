@@ -5,9 +5,13 @@ from telethon import TelegramClient
 from telethon.errors import SessionPasswordNeededError
 from dotenv import load_dotenv
 
+
+# Load environment variables
+load_dotenv(dotenv_path="../.env")
+
 # Async function to scrape messages
 async def scrape_channel(channel_username, limit=30):
-    client = TelegramClient("async_session", api_id, api_hash)
+    client = TelegramClient("async_session", os.getenv("tg_api_id"), os.getenv("tg_api_hash"))
 
     try:
         await client.start()
